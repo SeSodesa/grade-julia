@@ -6,6 +6,7 @@
 
 !.gitignore
 !.gitattributes
+!LICENSE
 !Dockerfile
 
 # Allow file types + subdirectories
