@@ -1,0 +1,13 @@
+# Disallow everything
+
+*
+
+# Allow specific files
+
+!.gitignore
+!.gitattributes
+!Dockerfile
+
+# Allow file types + subdirectories
+
+!**/README.md

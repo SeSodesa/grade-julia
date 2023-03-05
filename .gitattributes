@@ -1,0 +1,10 @@
+### .gitattributes
+#
+# A file which tells Git which files in this repository should be treated as
+# plain text and therefore have their line endings normalized.
+#
+
+.gitattributes  text
+.gitignore      text
+*.md            text diff=markdown
+Dockerfile      text
