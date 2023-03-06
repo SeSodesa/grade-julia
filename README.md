@@ -3,7 +3,7 @@
 A Docker image for grading exercises written in the [Julia programming
 language][Julia] on the [A+ learning management system][A+], developed at Aalto
 University. To build the container image, you must [install Docker], navigate
-to this folder and run the `docker build` command ([link][docker-build])
+to this folder and run the `docker build` command ([docs][docker-build])
 
 	docker build --tag organization/grade-julia:tag .
 
