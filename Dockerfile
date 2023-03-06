@@ -38,15 +38,13 @@ ARG JULIA_CHECKSUM=julia.sha256
 ## Building the image.
 
 RUN \
-	cd / \
-	&& \
 	curl -o "$JULIA_ARCHIVE" "$JULIA_DOWNLOAD_URL" \
 	&& \
 	curl -o "$JULIA_CHECKSUMS" "$JULIA_CHECKSUM_URL" \
 	&& \
-	grep "${JULIA_ARCHIVE}" $JULIA_CHECKSUMS > $JULIA_CHECKSUM \
+	grep "${JULIA_ARCHIVE}" "$JULIA_CHECKSUMS" > "$JULIA_CHECKSUM" \
 	&& \
-	sha256sum --check $JULIA_CHECKSUM \
+	sha256sum --check "$JULIA_CHECKSUM" \
 	&& \
 	tar -xvf "${JULIA_ARCHIVE}" --directory /usr/local/ \
 	&& \
@@ -54,6 +52,6 @@ RUN \
 	&& \
 	rm "${JULIA_ARCHIVE}" "${JULIA_CHECKSUMS}" "${JULIA_CHECKSUM}"
 
-## Running Bash just allows us to peek inside of the container during testing.
-
-CMD ["/bin/bash"]
+## TODO
+#
+# Add a grading script that is run when the container is started.
