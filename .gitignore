@@ -12,3 +12,9 @@
 # Allow file types + subdirectories
 
 !**/README.md
+
+!exercise/
+!exercise/**/
+!exercise/**/Project.toml
+!exercise/**/Manifest.toml
+!exercise/**/*.jl

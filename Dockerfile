@@ -35,7 +35,7 @@ ARG JULIA_CHECKSUM_URL=https://julialang-s3.julialang.org/bin/checksums/${JULIA_
 
 ARG JULIA_CHECKSUM=julia.sha256
 
-## Building the image.
+## Install Julia and generate submission project.
 
 RUN \
 	curl -o "$JULIA_ARCHIVE" "$JULIA_DOWNLOAD_URL" \
@@ -52,6 +52,20 @@ RUN \
 	&& \
 	rm "${JULIA_ARCHIVE}" "${JULIA_CHECKSUMS}" "${JULIA_CHECKSUM}"
 
-## TODO
-#
-# Add a grading script that is run when the container is started.
+# Copy the exercise project skeleton in this repository into the grader.
+
+ARG EXERCISE_FOLDER=/exercise_project
+
+COPY exercise/ $EXERCISE_FOLDER
+
+# Precompile the exercise project skeleton. This also grants the project the
+# necessary permissions, when the grader is started.
+
+RUN \
+	cd $EXERCISE_FOLDER \
+	&& \
+	julia --project='.' -e 'import Pkg; Pkg.activate("."); Pkg.precompile()' \
+	&& \
+	cd "$EXERCISE_FOLDER/test" \
+	&& \
+	julia --project='.' -e 'import Pkg; Pkg.activate("."); Pkg.precompile()'
