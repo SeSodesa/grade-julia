@@ -13,6 +13,9 @@
 
 !**/README.md
 
+!sh/
+!sh/grading-wrapper
+
 !exercise/
 !exercise/**/
 !exercise/**/Project.toml
