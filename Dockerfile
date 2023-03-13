@@ -52,20 +52,34 @@ RUN \
 	&& \
 	rm "${JULIA_ARCHIVE}" "${JULIA_CHECKSUMS}" "${JULIA_CHECKSUM}"
 
-# Copy the exercise project skeleton in this repository into the grader.
+# Copy the exercise project skeleton in this repository into the grader and
+# start working there.
 
 ARG EXERCISE_FOLDER=/exercise_project
+
+ARG TEST_FOLDER="$EXERCISE_FOLDER/test"
 
 COPY exercise/ $EXERCISE_FOLDER
 
 # Precompile the exercise project skeleton. This also grants the project the
 # necessary permissions, when the grader is started.
 
-RUN \
-	cd $EXERCISE_FOLDER \
-	&& \
-	julia --project='.' -e 'import Pkg; Pkg.activate("."); Pkg.precompile()' \
-	&& \
-	cd "$EXERCISE_FOLDER/test" \
-	&& \
-	julia --project='.' -e 'import Pkg; Pkg.activate("."); Pkg.precompile()'
+WORKDIR $EXERCISE_FOLDER
+
+RUN julia --project='.' -e 'import Pkg; Pkg.activate("."); Pkg.precompile()'
+
+WORKDIR $TEST_FOLDER
+
+RUN julia --project='.' -e 'import Pkg; Pkg.activate("."); Pkg.precompile()'
+
+WORKDIR $EXERCISE_FOLDER
+
+# Copy shell scripts into a folder on the path.
+
+COPY sh/ /usr/local/bin/
+
+# Set new entrypoint.
+
+ENTRYPOINT [ "/usr/local/bin/grading-wrapper" ]
+
+CMD ["/exercise/run.sh"]
