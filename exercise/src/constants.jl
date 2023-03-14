@@ -5,6 +5,14 @@
 #
 
 """
+	PROJECT_FOLDER
+
+The package directory of this module.
+
+"""
+const PROJECT_FOLDER = abspath(joinpath(@__DIR__, ".."))
+
+"""
 	EXERCISE_FOLDER_ON_GRADER
 
 The folder that stores the supporting files related to this exercise.

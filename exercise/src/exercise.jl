@@ -14,9 +14,13 @@ module exercise
 	export write_grading_err
 	export set_submission_error
 
-	## Include file names and other useful constants.
+	## Include module code from this directory.
 
 	include("constants.jl")
+
+	include("FeedbackItem.jl")
+
+	include("Grader.jl")
 
 	include("submission.jl")
 
