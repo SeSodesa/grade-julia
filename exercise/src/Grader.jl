@@ -59,7 +59,9 @@ mutable struct Grader
 	"""
 		feedback_items
 
-	A list of FeedbackItems. If this is not empty,
+	A list of FeedbackItems. If this is not empty, the grader will report an
+	erraneous submission via the file submission-set-error.
+
 	"""
 	feedback_items :: Vector{FeedbackItem}
 
@@ -67,14 +69,15 @@ mutable struct Grader
 		Grader
 
 	Inner constructor for this type. Always sets the initial `points` to 0 and
-	`max_points` to the given `max_points`.
+	`max_points` to the given `max_points`. Feedback strings and separate
+	feedback items will be empty.
 
 	"""
 	function Grader(max_points::Int)
 
 		feedback_dir = joinpath(PROJECT_FOLDER, "feedback")
 
-		new(0, max_points, feedback_dir, [])
+		new(0, max_points, "", "", [], feedback_dir, [])
 
 	end
 
@@ -87,11 +90,51 @@ Increments the `points` field of a given grader,
 """
 function add_point(grader::Grader)
 
-	if grader.points < grader.max_points
+	if 0 ≤ grader.points < grader.max_points
 
 		grader.points += 1
 
 	end
+
+end # function
+
+"""
+	add_points
+
+To add multiple points at once, call this function.
+
+"""
+function add_points(grader::Grader, points::Int)
+
+	if 0 ≤ grader.points + points < grader.max_points
+
+		grader.points += points
+
+	end
+
+end # function
+
+"""
+	set_feedback_out
+
+Sets the student-facing feedback string of the given grader.
+
+"""
+function set_feedback_out(grader::Grader, out)
+
+	grader.out = out
+
+end # function
+
+"""
+	set_feedback_err
+
+Sets the student-facing feedback error string of the given grader.
+
+"""
+function set_feedback_err(grader::Grader, err)
+
+	grader.err = err
 
 end # function
 
@@ -158,6 +201,7 @@ end # function
 	write_points
 
 Writes the point ratio to the grader feedback points file.
+
 """
 function write_points(grader::Grader)
 
@@ -165,7 +209,7 @@ function write_points(grader::Grader)
 
 	open(file, "w") do io
 
-		write(io, "$points/$max_points")
+		write(io, "$(grader.points)/$(grader.max_points)")
 
 	end
 
@@ -184,7 +228,7 @@ function write_feedback_out(grader::Grader)
 
 	open(file, "w") do io
 
-		write(io, grader.feedback)
+		write(io, grader.out)
 
 	end
 
@@ -203,7 +247,7 @@ function write_feedback_err(grader::Grader)
 
 	open(file, "w") do io
 
-		write(io, error_msg)
+		write(io, grader.err)
 
 	end
 
@@ -221,9 +265,13 @@ function write_grading_err(grader::Grader)
 
 	open(file, "w") do io
 
-		write(io, error_msg)
+		for error_msg ∈ grader.grader_errors
 
-	end
+			write(io, "\n\n" * error_msg)
+
+		end
+
+	end # do
 
 end # function
 

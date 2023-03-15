@@ -105,6 +105,4 @@ end
 
 Pkg.activate(@__DIR__)
 
-print("Running tests…")
-
 Pkg.test()

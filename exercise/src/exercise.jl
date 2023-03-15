@@ -8,11 +8,25 @@ invoke.
 """
 module exercise
 
+	## Export list.
+	#
+	# These functions become available after a "using exericse" at the start
+	# of the grading script file.
+	#
+
+	export Grader
+	export FeedbackItem
+	export write_feedback
 	export write_points
 	export write_feedback_out
 	export write_feedback_err
 	export write_grading_err
 	export set_submission_error
+	export add_point
+	export add_points
+	export set_feedback_out
+	export set_feedback_err
+	export add_feedback_item
 
 	## Include module code from this directory.
 
@@ -24,7 +38,7 @@ module exercise
 
 	include("submission.jl")
 
-	## Helper functions for grading
+	## Helper functions for grading.
 
 	"""
 		write_points
