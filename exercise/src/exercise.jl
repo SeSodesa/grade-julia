@@ -38,6 +38,8 @@ module exercise
 
 	include("submission.jl")
 
+	include("model_solution.jl")
+
 	## Helper functions for grading.
 
 	"""
