@@ -65,7 +65,7 @@ for name ∈ exercise_directory_contents
 
 		new_path = joinpath(SOURCE_FOLDER, name)
 
-		cp(full_path, new_path)
+		cp(full_path, new_path, force=true)
 
 	else
 
