@@ -179,7 +179,7 @@ module exercise
 
 		else
 
-			" class = " * join(classes, ", ")
+			" class = \"" * join(classes, " ") * "\""
 
 		end
 
