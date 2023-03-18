@@ -57,9 +57,10 @@ module exercise
 	this range.
 
 	"""
-	function html_hn(html::T1, str::T2, level::Int, classes=String[]) where {
+	function html_hn(html::T1, str::T2, level::Int; classes::Array{T3}=String[]) where {
 		T1 <: AbstractString,
 		T2 <: AbstractString,
+		T3 <: AbstractString,
 	}
 
 		@assert ( 1 ≤ level ≤ 6 ) "HTML title levels are in [1,6]"
@@ -76,9 +77,10 @@ module exercise
 	Appends a `p`-tagged string to a given HTML string.
 
 	"""
-	function html_p(html::T1, str::T2, classes=String[]) where {
+	function html_p(html::T1, str::T2; classes::Array{T3}=String[]) where {
 		T1 <: AbstractString,
 		T2 <: AbstractString,
+		T3 <: AbstractString,
 	}
 
 		cc = html_classes(classes)
@@ -93,9 +95,10 @@ module exercise
 	Appends a `pre`-tagged string to a given HTML string.
 
 	"""
-	function html_pre(html::T1, str::T2, classes=String[]) where {
+	function html_pre(html::T1, str::T2; classes::Array{T3}=String[]) where {
 		T1 <: AbstractString,
 		T2 <: AbstractString,
+		T3 <: AbstractString,
 	}
 
 		cc = html_classes(classes)
@@ -110,9 +113,10 @@ module exercise
 	Appends a `pre`-tagged string to a given HTML string.
 
 	"""
-	function html_code(html::T1, str::T2, classes=String[]) where {
+	function html_code(html::T1, str::T2; classes::Array{T3}=String[]) where {
 		T1 <: AbstractString,
 		T2 <: AbstractString,
+		T3 <: AbstractString,
 	}
 
 		html *= "<code>$str</code>"
@@ -125,9 +129,10 @@ module exercise
 	Appends a `b`-tagged string to a given HTML string.
 
 	"""
-	function html_b(html::T1, str::T2, classes=String[]) where {
+	function html_b(html::T1, str::T2; classes::Array{T3}=String[]) where {
 		T1 <: AbstractString,
 		T2 <: AbstractString,
+		T3 <: AbstractString,
 	}
 
 		html *= "<b>$str</b>"
@@ -140,9 +145,10 @@ module exercise
 	Appends a `i`-tagged string to a given HTML string.
 
 	"""
-	function html_i(html::T1, str::T2, classes=String[]) where {
+	function html_i(html::T1, str::T2; classes::Array{T3}=String[]) where {
 		T1 <: AbstractString,
 		T2 <: AbstractString,
+		T3 <: AbstractString,
 	}
 
 		html *= "<b>$str</b>"
@@ -155,9 +161,10 @@ module exercise
 	Appends a `i`-tagged string to a given HTML string.
 
 	"""
-	function html_kbd(html::T1, str::T2, classes=String[]) where {
+	function html_kbd(html::T1, str::T2; classes::Array{T3}=String[]) where {
 		T1 <: AbstractString,
 		T2 <: AbstractString,
+		T3 <: AbstractString,
 	}
 
 		html *= "<kbd>$str</kbd>"
