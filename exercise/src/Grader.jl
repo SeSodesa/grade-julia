@@ -127,6 +127,22 @@ function set_feedback_out(grader::Grader, out)
 end # function
 
 """
+	add_hn
+
+Surrounds a given string with HTML tags `h{1..6}` and appends it to
+Grader.out.
+
+"""
+function add_hn(grader::Grader, title::T, level::Int; classes::Array{S}=String[]) where {
+	T <: AbstractString,
+	S <: AbstractString,
+}
+
+	grader.out = html_hn(grader.out, title, level, classes=classes)
+
+end
+
+"""
 	add_positive_p
 
 Surrounds the given paragraph in HTML `p` tags and appends it to Grader.out.
@@ -135,7 +151,7 @@ Allows giving positively tinted feedback in a grading script.
 """
 function add_positive_p(grader::Grader, paragraph::T) where T <: AbstractString
 
-	grader.out = html_p(grader.out, "✓ " * paragraph, classes = ["alert-success"])
+	grader.out = html_p(grader.out, "✓ " * paragraph, classes = ["alert", "alert-success"])
 
 end
 
@@ -148,7 +164,7 @@ Allows giving negatively tinted feedback in a grading script.
 """
 function add_negative_p(grader::Grader, paragraph::T) where T <: AbstractString
 
-	grader.out = html_p(grader.out, "⚠ " * paragraph, classes = ["alert-danger"])
+	grader.out = html_p(grader.out, "⚠ " * paragraph, classes = ["alert", "alert-danger"])
 
 end
 
