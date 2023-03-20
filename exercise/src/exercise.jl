@@ -8,97 +8,185 @@ invoke.
 """
 module exercise
 
+	## Export list.
+	#
+	# These functions become available after a "using exericse" at the start
+	# of the grading script file.
+	#
+
+	export Grader
+	export FeedbackItem
+	export write_feedback
 	export write_points
 	export write_feedback_out
 	export write_feedback_err
 	export write_grading_err
 	export set_submission_error
+	export add_point
+	export add_points
+	export set_feedback_out
+	export set_feedback_err
+	export add_feedback_item
+	export html_hn
+	export html_p
+	export html_i
+	export html_b
+	export html_pre
+	export html_code
+	export html_classes
 
-	## Include file names and other useful constants.
+	## Include module code from this directory.
 
 	include("constants.jl")
 
+	include("FeedbackItem.jl")
+
+	include("Grader.jl")
+
 	include("submission.jl")
 
-	## Helper functions for grading
+	include("model_solution.jl")
+
+	## Helper functions for grading.
 
 	"""
-		write_points
+		html_hn
 
-	Writes the point ratio to the grader feedback points file.
+	Appends a `hn`-tagged string to a given HTML string, where `hn` ∈ h{ 1, …,
+	6 }. Throws an `AssertionError`, if the given title level is outside of
+	this range.
+
 	"""
-	function write_points(points :: Int, max_points :: Int)
+	function html_hn(html::T1, str::T2, level::Int; classes::Array{T3}=String[]) where {
+		T1 <: AbstractString,
+		T2 <: AbstractString,
+		T3 <: AbstractString,
+	}
 
-		open(FEEDBACK_POINTS_ON_GRADER, "w") do io
+		@assert ( 1 ≤ level ≤ 6 ) "HTML title levels are in [1,6]"
 
-			write(io, "$points/$max_points")
+		cc = html_classes(classes)
 
-		end
+		html *= "<h$level$cc>$str</h$level>"
 
 	end # function
 
 	"""
-		write_feedback_out
+		html_p
 
-	Writes given textual student feedback into its designated file. The
-	feedback needs to be valid HTML.
+	Appends a `p`-tagged string to a given HTML string.
 
 	"""
-	function write_feedback_out(feedback :: T) where { T <: AbstractString }
+	function html_p(html::T1, str::T2; classes::Array{T3}=String[]) where {
+		T1 <: AbstractString,
+		T2 <: AbstractString,
+		T3 <: AbstractString,
+	}
 
-		open(FEEDBACK_OUT_ON_GRADER, "w") do io
+		cc = html_classes(classes)
 
-			write(io, feedback)
-
-		end
+		html *= "<p$cc>$str</p>"
 
 	end # function
 
 	"""
-		write_feedback_out
+		html_pre
 
-	Writes given textual student feedback into its designated file. The
-	feedback needs to be valid HTML.
+	Appends a `pre`-tagged string to a given HTML string.
 
 	"""
-	function write_feedback_err(error_msg :: T) where { T <: AbstractString }
+	function html_pre(html::T1, str::T2; classes::Array{T3}=String[]) where {
+		T1 <: AbstractString,
+		T2 <: AbstractString,
+		T3 <: AbstractString,
+	}
 
-		open(FEEDBACK_ERR_ON_GRADER, "w") do io
+		cc = html_classes(classes)
 
-			write(io, error_msg)
-
-		end
+		html *= "<pre$cc>$str</pre>"
 
 	end # function
 
 	"""
-		write_grading_err
+		html_code
 
-	Writes grading error messages to their designated file.
+	Appends a `pre`-tagged string to a given HTML string.
 
 	"""
-	function write_grading_err(error_msg :: T) where { T <: AbstractString }
+	function html_code(html::T1, str::T2; classes::Array{T3}=String[]) where {
+		T1 <: AbstractString,
+		T2 <: AbstractString,
+		T3 <: AbstractString,
+	}
 
-		open(FEEDBACK_GRADING_ERR_ON_GRADER, "w") do io
-
-			write(io, error_msg)
-
-		end
+		html *= "<code>$str</code>"
 
 	end # function
 
 	"""
-		set_submission_error
+		html_b
 
-	Writes the word `true` into a designated file, which tells the LMS that
-	the submission ended up in an erraneous state.
+	Appends a `b`-tagged string to a given HTML string.
 
 	"""
-	function set_submission_error()
+	function html_b(html::T1, str::T2; classes::Array{T3}=String[]) where {
+		T1 <: AbstractString,
+		T2 <: AbstractString,
+		T3 <: AbstractString,
+	}
 
-		open(FEEDBACK_SUBMISSION_SET_ERR_ON_GRADER, "w") do io
+		html *= "<b>$str</b>"
 
-			write(io, "true")
+	end # function
+
+	"""
+		html_i
+
+	Appends a `i`-tagged string to a given HTML string.
+
+	"""
+	function html_i(html::T1, str::T2; classes::Array{T3}=String[]) where {
+		T1 <: AbstractString,
+		T2 <: AbstractString,
+		T3 <: AbstractString,
+	}
+
+		html *= "<b>$str</b>"
+
+	end # function
+
+	"""
+		html_kbd
+
+	Appends a `i`-tagged string to a given HTML string.
+
+	"""
+	function html_kbd(html::T1, str::T2; classes::Array{T3}=String[]) where {
+		T1 <: AbstractString,
+		T2 <: AbstractString,
+		T3 <: AbstractString,
+	}
+
+		html *= "<kbd>$str</kbd>"
+
+	end # function
+
+	"""
+		html_classes
+
+	Constructs a class string from a given array of class names. This can be
+	called by the other HTML tag functions to add classes to their start tag.
+
+	"""
+	function html_classes(classes::VecOrMat{T}) where T <: AbstractString
+
+		if isempty(classes)
+
+			""
+
+		else
+
+			" class = \"" * join(classes, " ") * "\""
 
 		end
 
