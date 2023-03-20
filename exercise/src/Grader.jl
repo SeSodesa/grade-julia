@@ -127,6 +127,32 @@ function set_feedback_out(grader::Grader, out)
 end # function
 
 """
+	add_positive_p
+
+Surrounds the given paragraph in HTML `p` tags and appends it to Grader.out.
+Allows giving positively tinted feedback in a grading script.
+
+"""
+function add_positive_p(grader::Grader, paragraph::T) where T <: AbstractString
+
+	grader.out = html_p(grader.out, "✓ " * paragraph, classes = ["alert-success"])
+
+end
+
+"""
+	add_negative_p
+
+Surrounds the given paragraph in HTML `p` tags and appends it to Grader.out.
+Allows giving negatively tinted feedback in a grading script.
+
+"""
+function add_negative_p(grader::Grader, paragraph::T) where T <: AbstractString
+
+	grader.out = html_p(grader.out, "⚠ " * paragraph, classes = ["alert-danger"])
+
+end
+
+"""
 	set_feedback_err
 
 Sets the student-facing feedback error string of the given grader.

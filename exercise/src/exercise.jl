@@ -34,6 +34,8 @@ module exercise
 	export html_pre
 	export html_code
 	export html_classes
+	export add_positive_p
+	export add_negative_p
 
 	## Include module code from this directory.
 
