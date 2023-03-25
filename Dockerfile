@@ -35,7 +35,7 @@ ARG JULIA_CHECKSUM_URL=https://julialang-s3.julialang.org/bin/checksums/${JULIA_
 
 ARG JULIA_CHECKSUM=julia.sha256
 
-## Install Julia and generate submission project.
+## Install Julia.
 
 RUN \
 	curl -o "$JULIA_ARCHIVE" "$JULIA_DOWNLOAD_URL" \
